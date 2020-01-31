@@ -14,13 +14,13 @@
 package com.kosta.acme.clazz;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="ClazzDay")
 public class ClazzDay implements Serializable {
-	public ClazzDay() {
-	}
+
 	
 	@Column(name="Id", nullable=false, length=19)	
 	@Id	
@@ -43,7 +43,7 @@ public class ClazzDay implements Serializable {
 	
 	@Column(name="`Date`", nullable=true)	
 	@Temporal(TemporalType.DATE)	
-	private java.util.Date date;
+	private LocalDate date;
 	
 	@Column(name="StartTime", nullable=true)	
 	@Temporal(TemporalType.DATE)	
@@ -61,7 +61,15 @@ public class ClazzDay implements Serializable {
 	@JoinTable(name="Instructor_ClazzDay", joinColumns={ @JoinColumn(name="ClazzDayId") }, inverseJoinColumns={ @JoinColumn(name="InstructorId") })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set instructors = new java.util.HashSet();
-	
+
+	public ClazzDay() {
+		this.date = LocalDate.now();
+	}
+
+	public ClazzDay(LocalDate date) {
+		this.date = date;
+	}
+
 	private void setId(long value) {
 		this.id = value;
 	}
@@ -82,11 +90,11 @@ public class ClazzDay implements Serializable {
 		return number;
 	}
 	
-	public void setDate(java.util.Date value) {
+	public void setDate(LocalDate value) {
 		this.date = value;
 	}
 	
-	public java.util.Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 	

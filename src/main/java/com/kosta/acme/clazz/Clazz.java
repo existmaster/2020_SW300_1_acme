@@ -13,7 +13,10 @@
  */
 package com.kosta.acme.clazz;
 
+import com.kosta.acme.course.Course;
+
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -33,8 +36,8 @@ public class Clazz implements Serializable {
 	@JoinColumns(value={ @JoinColumn(name="CourseID", referencedColumnName="ID", nullable=false) }, foreignKey=@ForeignKey(name="FKClazz743645"))	
 	private com.kosta.acme.course.Course course;
 	
-	@Column(name="Status", nullable=true, length=255)	
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private ClazzStatus status;
 	
 	@Column(name="EvaluationRate", nullable=false, length=10)	
 	private float evaluationRate;
@@ -42,7 +45,11 @@ public class Clazz implements Serializable {
 	@OneToOne(mappedBy="clazz", targetEntity=com.kosta.acme.clazz.ClazzDay.class, fetch=FetchType.LAZY)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	private com.kosta.acme.clazz.ClazzDay clazzDay;
-	
+
+	public Clazz(Course course, ClazzStatus clazzStatus) {
+
+	}
+
 	private void setId(long value) {
 		this.id = value;
 	}
@@ -54,15 +61,15 @@ public class Clazz implements Serializable {
 	public long getORMID() {
 		return getId();
 	}
-	
-	public void setStatus(String value) {
-		this.status = value;
-	}
-	
-	public String getStatus() {
+
+	public ClazzStatus getStatus() {
 		return status;
 	}
-	
+
+	public void setStatus(ClazzStatus status) {
+		this.status = status;
+	}
+
 	public void setEvaluationRate(float value) {
 		this.evaluationRate = value;
 	}
@@ -90,5 +97,13 @@ public class Clazz implements Serializable {
 	public String toString() {
 		return String.valueOf(getId());
 	}
-	
+
+	public boolean isCanOpen() {
+		if (this.clazzDay == null)
+			return false;
+		else if (this.clazzDay.getDate().isBefore(LocalDate.now()))
+			return false;
+		else
+			return true;
+	}
 }
