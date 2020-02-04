@@ -41,12 +41,11 @@ public class ClazzDay implements Serializable {
 	@Column(name="Number", nullable=false, length=10)	
 	private int number;
 	
-	@Column(name="`Date`", nullable=true)	
-	@Temporal(TemporalType.DATE)	
+	@Column(name="`Date`", nullable=true)
 	private LocalDate date;
 	
-	@Column(name="StartTime", nullable=true)	
-	@Temporal(TemporalType.DATE)	
+	@Column(name="StartTime", nullable=true)
+	@Temporal(TemporalType.DATE)
 	private java.util.Date startTime;
 	
 	@Column(name="EndTime", nullable=true)	

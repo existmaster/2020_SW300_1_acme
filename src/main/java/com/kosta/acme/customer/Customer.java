@@ -19,10 +19,21 @@ import javax.persistence.*;
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Customer")
 public class Customer implements Serializable {
+
 	public Customer() {
 	}
-	
-	@Column(name="Id", nullable=false, length=19)	
+
+	public Customer(String firstName, String lastName, String job, String industry, String email, String phone){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.job = job;
+		this.industry = industry;
+		this.email = email;
+		this.phone = phone;
+		this.membership = false;
+	}
+
+	@Column(name="Id", nullable=false, length=19)
 	@Id	
 	@GeneratedValue(generator="COM_KOSTA_ACME_CUSTOMER_CUSTOMER_ID_GENERATOR")	
 	@org.hibernate.annotations.GenericGenerator(name="COM_KOSTA_ACME_CUSTOMER_CUSTOMER_ID_GENERATOR", strategy="native")	
